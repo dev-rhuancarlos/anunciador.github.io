@@ -75,18 +75,20 @@
           const optionGroup = document.createElement("optgroup");
           optionGroup.setAttribute('label', estados[i].toUpperCase());
 
-          const cidades = lista.filter((item) => item.uf === estados[i]);
+          const cidades = lista.filter((item) => item.uf === estados[i])
+                                .map(item => item.cidade);
+          cidades.sort();
+
           montaOptions(cidades, optionGroup);
           select.appendChild(optionGroup);
         }
       };
 
       const montaOptions = (cidades, optgroup) => {
-        console.log(cidades);
         for (let i = 0; i < cidades.length; i++) {
           const option = document.createElement("option");
-          option.setAttribute("value", cidades[i].cidade.split("-")[0]);
-          option.innerText = cidades[i].cidade.split("-")[0];
+          option.setAttribute("value", cidades[i].split("-")[0]);
+          option.innerText = cidades[i].split("-")[0];
           optgroup.appendChild(option);
         }
       };
@@ -110,7 +112,7 @@
           event.preventDefault();
         }
       });
-      
+
       $("#horario").on("blur", function (event) {
         let valor = $(this).val();
 
