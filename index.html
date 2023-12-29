@@ -58,26 +58,53 @@
         }
       }
 
-      const obterValoresUnicos = () => {
+      const obterCidades = () => {
         try {
           // Utilize a lista diretamente, pois ela já é um array após a resolução da Promise
           const valores = lista.map((item) => item["cidade"].split("-")[0]);
           const valoresUnicos = [...new Set(valores)];
 
-          return JSON.stringify(valoresUnicos);
+          return valoresUnicos;
         } catch (error) {
           console.error("Erro ao processar o JSON:", error.message);
         }
       };
 
-      const montaSelect = (string, select) => {
-        const jsonDestinos = JSON.parse(string);
-        for (let i = 0; i < jsonDestinos.length; i++) {
-          const option = document.createElement("option");
-          option.setAttribute("value", jsonDestinos[i]);
-          option.innerText = jsonDestinos[i];
-          select.appendChild(option);
+      const obterEstados = () => {
+        try {
+          // Utilize a lista diretamente, pois ela já é um array após a resolução da Promise
+          const valores = lista.map((item) => item["uf"]);
+          const uf = [...new Set(valores)];
+          return uf;
+        } catch (error) {
+          console.error("Erro ao processar o JSON:", error.message);
         }
+      };
+
+      const montaOptgroup = (estados, cidades, select) => {
+        for (let i = 0; i < estados.length; i++) {
+          const optionGroup = document.createElement("optgroup");
+          optionGroup.setAttribute('value', estados[i].toUpperCase());
+          optionGroup.innerHTML = estados[i]
+          console.log(optionGroup);
+          const lista = cidades.filter((item) => item.uf === estados[i]);
+          montaOptions(lista, optionGroup);
+          select.appendChild(optionGroup);
+        }
+      };
+
+      const montaOptions = (cidades, optgroup) => {
+        for (let i = 0; i < cidades.length; i++) {
+          const option = document.createElement("option");
+          option.setAttribute("value", cidades[i]);
+          option.innerText = cidades[i];
+          optgroup.appendChild(option);
+        }
+      };
+
+      const montaSelect = (estados, cidades) => {
+        montaOptgroup(estados, cidades, origensBox);
+        montaOptgroup(estados, cidades, destinoBox);
       };
 
       button.addEventListener("click", () => {
@@ -87,35 +114,46 @@
       });
 
       $("#horario").on("keypress", function (event) {
-          const pattern = /[0-9]/;
-          let input = String.fromCharCode(event.charCode);
+        const pattern = /[0-9]/;
+        let input = String.fromCharCode(event.charCode);
 
-          if (!pattern.test(input) || $(this).val().length >= 4) {
-            event.preventDefault();
-          }
-        });
-        $("#horario").on("blur", function(event){
-          let valor = $(this).val();
-          if(valor.length > 4){
-            return;
-          }
-          if($(this).val().length > 2){
-            valor = $(this).val().length > 3 ?`${valor.slice(0,2)}:${valor.slice(2)}`:`${valor.slice(0,2)}:${valor.slice(2)}0`;
-          }else{
-            valor = $(this).val().length != 0 ?`${valor.slice(0,2)}:${"00"}`: "";
-          }
-          $(this).val(valor)
-        })
+        if (!pattern.test(input) || $(this).val().length >= 4) {
+          event.preventDefault();
+        }
+      });
+      $("#horario").on("blur", function (event) {
+        let valor = $(this).val();
+
+        if (valor.length > 4) {
+          return;
+        }
+
+        valor = valor.replace(":", "");
+        console.log(valor.length);
+
+        if ($(this).val().length > 2) {
+          valor =
+            $(this).val().length > 3
+              ? `${valor.slice(0, 2)}:${valor.slice(2)}`
+              : `${valor.slice(0, 2)}:${valor.slice(2)}0`;
+        } else {
+          valor =
+            $(this).val().length != 0
+              ? $(this).val().length > 1
+                ? `${valor.slice(0, 2)}:00`
+                : `0${valor.slice(0, 1)}:00`
+              : "";
+        }
+        $(this).val(valor);
+      });
 
       // Aguarde o carregamento completo da página antes de executar o código
       $(document).ready(function () {
-        const origens = obterValoresUnicos();
-        const destinos = obterValoresUnicos();
-        montaSelect(origens, origensBox);
-        montaSelect(destinos, destinoBox);
+        const cidades = obterCidades();
+        const estados = obterEstados();
+        montaSelect(estados, cidades);
         $("#origem").select2();
         $("#destino").select2();
-        
       });
 
       let lista = [
