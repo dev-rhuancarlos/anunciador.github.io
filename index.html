@@ -28,9 +28,6 @@
       </div>
       <input name="horario" id="horario" type="text" maxlength="5" />
       <select name="plataforma" id="plataforma">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
       </select>
 
       <button id="button">Chamar</button>
@@ -93,6 +90,15 @@
         }
       };
 
+      const montaPlataformas = () => {
+        for (let i = 1; i < 10; i++) {
+          const option = document.createElement("option");
+          option.setAttribute("value", i);
+          option.innerText = i;
+          plataforma.appendChild(option);
+        }
+      };
+
       const montaSelect = (estados) => {
         montaOptgroup(estados, origensBox);
         montaOptgroup(estados, destinoBox);
@@ -143,8 +149,10 @@
       $(document).ready(function () {
         const estados = obterEstados();
         montaSelect(estados);
+        montaPlataformas();
         $("#origem").select2();
         $("#destino").select2();
+        
       });
 
       let lista = [
