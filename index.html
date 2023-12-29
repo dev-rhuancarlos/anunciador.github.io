@@ -20,14 +20,13 @@
   <body>
     <main>
       <h1>Proximo horario</h1>
-      <select name="origem" id="origem"></select>
-      <select name="destino" id="destino"></select>
-      <input
-        name="horario"
-        id="horario"
-        type="text"
-        maxlength="5"
-      />
+      <div class="combo">
+        <select name="origem" id="origem"></select>
+      </div>
+      <div class="combo">
+        <select name="destino" id="destino"></select>
+      </div>
+      <input name="horario" id="horario" type="text" maxlength="5" />
       <select name="plataforma" id="plataforma">
         <option value="1">1</option>
         <option value="2">2</option>
@@ -81,39 +80,34 @@
         }
       };
 
-      const aplicaMascaraHora = (input) => {
-        const removeChar = input.value.replace(/\D/g, "");
-
-        // Limita o valor a 4 dígitos
-        const valorLimitado = valorSemCaracteresNaoNumericos.slice(0, 4);
-
-        // Adiciona a máscara "hh:mm"
-        let horaFormatada = "";
-        if (valorLimitado.length >= 2) {
-          horaFormatada = `${valorLimitado.slice(0, 2)}:${valorLimitado.slice(
-            2
-          )}`;
-        } else {
-          horaFormatada = valorLimitado;
-        }
-
-        // Atualiza o valor do campo de entrada
-        input.value = horaFormatada;
-      };
-
-      
       button.addEventListener("click", () => {
         let texto = `Atenção passageiros para o carro de ${origem.value} com destino ${destino.value}, horario ${horario.value}, o carro acaba de estacionar na plataforma ${plataforma.value}`;
         let ut = new SpeechSynthesisUtterance(texto);
         window.speechSynthesis.speak(ut);
       });
 
-      horario.addEventListener("input", function () {
-        aplicaMascaraHora(this);
-      });
+      $("#horario").on("keypress", function (event) {
+          const pattern = /[0-9]/;
+          let input = String.fromCharCode(event.charCode);
+
+          if (!pattern.test(input) || $(this).val().length >= 4) {
+            event.preventDefault();
+          }
+        });
+        $("#horario").on("blur", function(event){
+          let valor = $(this).val();
+          if(valor.length > 4){
+            return;
+          }
+          if($(this).val().length > 2){
+            valor = $(this).val().length > 3 ?`${valor.slice(0,2)}:${valor.slice(2)}`:`${valor.slice(0,2)}:${valor.slice(2)}0`;
+          }else{
+            valor = $(this).val().length != 0 ?`${valor.slice(0,2)}:${"00"}`: "";
+          }
+          $(this).val(valor)
+        })
 
       // Aguarde o carregamento completo da página antes de executar o código
-
       $(document).ready(function () {
         const origens = obterValoresUnicos();
         const destinos = obterValoresUnicos();
@@ -121,6 +115,7 @@
         montaSelect(destinos, destinoBox);
         $("#origem").select2();
         $("#destino").select2();
+        
       });
 
       let lista = [
