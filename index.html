@@ -58,18 +58,6 @@
         }
       }
 
-      const obterCidades = () => {
-        try {
-          // Utilize a lista diretamente, pois ela já é um array após a resolução da Promise
-          const valores = lista.map((item) => item["cidade"].split("-")[0]);
-          const valoresUnicos = [...new Set(valores)];
-
-          return valoresUnicos;
-        } catch (error) {
-          console.error("Erro ao processar o JSON:", error.message);
-        }
-      };
-
       const obterEstados = () => {
         try {
           // Utilize a lista diretamente, pois ela já é um array após a resolução da Promise
@@ -81,30 +69,31 @@
         }
       };
 
-      const montaOptgroup = (estados, cidades, select) => {
+      const montaOptgroup = (estados, select) => {
         for (let i = 0; i < estados.length; i++) {
+          
           const optionGroup = document.createElement("optgroup");
-          optionGroup.setAttribute('value', estados[i].toUpperCase());
-          optionGroup.innerHTML = estados[i]
-          console.log(optionGroup);
-          const lista = cidades.filter((item) => item.uf === estados[i]);
-          montaOptions(lista, optionGroup);
+          optionGroup.setAttribute('label', estados[i].toUpperCase());
+
+          const cidades = lista.filter((item) => item.uf === estados[i]);
+          montaOptions(cidades, optionGroup);
           select.appendChild(optionGroup);
         }
       };
 
       const montaOptions = (cidades, optgroup) => {
+        console.log(cidades);
         for (let i = 0; i < cidades.length; i++) {
           const option = document.createElement("option");
-          option.setAttribute("value", cidades[i]);
-          option.innerText = cidades[i];
+          option.setAttribute("value", cidades[i].cidade.split("-")[0]);
+          option.innerText = cidades[i].cidade.split("-")[0];
           optgroup.appendChild(option);
         }
       };
 
-      const montaSelect = (estados, cidades) => {
-        montaOptgroup(estados, cidades, origensBox);
-        montaOptgroup(estados, cidades, destinoBox);
+      const montaSelect = (estados) => {
+        montaOptgroup(estados, origensBox);
+        montaOptgroup(estados, destinoBox);
       };
 
       button.addEventListener("click", () => {
@@ -121,6 +110,7 @@
           event.preventDefault();
         }
       });
+      
       $("#horario").on("blur", function (event) {
         let valor = $(this).val();
 
@@ -149,9 +139,8 @@
 
       // Aguarde o carregamento completo da página antes de executar o código
       $(document).ready(function () {
-        const cidades = obterCidades();
         const estados = obterEstados();
-        montaSelect(estados, cidades);
+        montaSelect(estados);
         $("#origem").select2();
         $("#destino").select2();
       });
