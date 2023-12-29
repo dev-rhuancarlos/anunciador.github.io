@@ -1,0 +1,68 @@
+*{
+  font-family: Arial, sans-serif;
+  padding: 0;
+  margin: 0;
+  box-sizing:border-box;
+}
+
+body{
+  background-color: #333;
+  color: #fff;
+}
+
+main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 1.5em;
+}
+/* 
+main{
+  text-align: center;
+} */
+
+select,
+button {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 10px;
+}
+/* select,button{
+  display: block;
+  width: 80px;
+  font-weight: bold;
+  border: 2px solid #999;
+  background: transparent;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px auto;
+  color: #fff;
+  outline: 0;
+} */
+button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 15px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+
+/* Estilos para dispositivos pequenos (celulares) */
+@media only screen and (max-width: 600px) {
+  main {
+      padding: 10px;
+  }
+
+  select,
+  button {
+      margin-bottom: 10px;
+  }
+}
