@@ -1,11 +1,11 @@
-*{
+* {
   font-family: Arial, sans-serif;
   padding: 0;
   margin: 0;
-  box-sizing:border-box;
+  box-sizing: border-box;
 }
 
-body{
+body {
   background-color: #333;
 }
 
@@ -13,39 +13,42 @@ main {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  text-align: center;
+  text-align: left;
+}
+
+form{
+  display: flex;
+  flex-direction: column;
+  align-content: center;
 }
 
 h1 {
   font-size: 1.5em;
   color: #fff;
+  margin-left: auto;
 }
 
 select,
-button, input {
-  width: 80%;
-  margin-top: 15px !important;
+button,
+input {
+  width: 70%;
   padding: 10px;
   text-align: center;
   border-radius: 5px;
   outline: 0;
+}
+
+label {
+  display: inline-block;
+  color: #fff;
+  width: 25%;
+}
+
+.combo {
+  margin-top: 15px !important;
 
 }
-.combo{
-  margin-top: 15px !important;
-}
-/* select,button{
-  display: block;
-  width: 80px;
-  font-weight: bold;
-  border: 2px solid #999;
-  background: transparent;
-  border-radius: 5px;
-  padding: 10px;
-  margin: 10px auto;
-  color: #fff;
-  outline: 0;
-} */
+
 button {
   background-color: #4CAF50;
   color: white;
@@ -55,17 +58,18 @@ button {
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+  margin: 10px auto 10px auto;
   cursor: pointer;
 }
 
 /* Estilos para dispositivos pequenos (celulares) */
 @media only screen and (max-width: 600px) {
   main {
-      padding: 10px;
+    padding: 10px;
   }
 
   select,
   button {
-      margin-bottom: 10px;
+    margin-bottom: 10px;
   }
 }
