@@ -36,7 +36,7 @@
         </div>
         <div class="input combo">
           <label>Horario:</label>
-          <input name="horario" id="horario" type="text" maxlength="5" />
+          <input name="horario" id="horario" type="text" maxlength="5" placeholder="00:00" />
         </div>
         <div class="input combo">
           <label>Plat.:</label>
@@ -50,6 +50,10 @@
         <button type="submit" id="chegada">Chegada</button>
         <button type="submit" id="saida">Saida</button>
       </form>
+      <div class="propaganda">
+        <label >Propaganda:</label>
+        <audio src="./PegaoaguiaBrancaeVem.mp3" controls></audio>
+      </div>
     </main>
 
     <script>
@@ -140,7 +144,8 @@
         selectedVoice = parseInt(voices.value);
       })
 
-      chegada.addEventListener("click", () => {
+      chegada.addEventListener("click", (event) => {
+        event.preventDefault();
         let texto = `Atenção passageiros para o carro de ${origem.value} com destino ${destino.value}, horario ${horario.value}, o carro acaba de estacionar`;
 
         if (plataforma.value != "") {
