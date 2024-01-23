@@ -45,11 +45,6 @@ label {
   width: 30%;
 }
 
-.combo {
-  margin-top: 10px !important;
-
-}
-
 button {
   background-color: #4CAF50;
   color: white;
@@ -61,6 +56,20 @@ button {
   font-size: 16px;
   margin: 10px auto 10px auto;
   cursor: pointer;
+}
+
+.combo {
+  margin-top: 10px !important;
+
+}
+
+.propaganda{
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 20px;
 }
 
 /* Estilos para dispositivos pequenos (celulares) */
